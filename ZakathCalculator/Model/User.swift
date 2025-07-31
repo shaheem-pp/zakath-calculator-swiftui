@@ -12,15 +12,15 @@ import SwiftData
 final class User {
     var name: String
     var email: String
-    var yearOfBirth: Int
+    var isWorking: Bool
     var createdOn: Date
     
     var zakatRecords: [ZakatRecord] = []
     
-    init(name: String, email: String, yearOfBirth: Int, createdOn: Date = .now) {
+    init(name: String, email: String, isWorking: Bool, createdOn: Date = .now) {
         self.name = name
         self.email = email
-        self.yearOfBirth = yearOfBirth
         self.createdOn = createdOn
+        self.isWorking = isWorking
     }
 }

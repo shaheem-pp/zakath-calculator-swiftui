@@ -23,7 +23,22 @@ struct AddUserView: View {
             
             CustomTextField(label: "Enter your Name", placeholder: "Name", text: $viewModel.name, icon: "person")
             CustomTextField(label: "Enter your Email", placeholder: "Email", text: $viewModel.email, icon: "envelope")
-            CustomTextField(label: "Enter your Year of Birth", placeholder: "Year of Birth", text: $viewModel.yearOfBirth, icon: "calendar")
+            
+            HStack {
+                Text("Currently Employed")
+                Spacer()
+                Toggle("", isOn: $viewModel.isWorking)
+                    .labelsHidden()
+            }
+            .tint(.blue)
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
+            .background(Color.gray.opacity(0.15))
+            .cornerRadius(10)
+            .onTapGesture {
+                viewModel.isWorking.toggle()
+            }
+            
             
             ButtonPrimary(title: "Create User") {
                 let result = viewModel.createUser(using: modelContext)
@@ -43,8 +58,8 @@ struct AddUserView: View {
                 }
             }
             .padding(.top, 32)
-            .disabled(viewModel.name.isEmpty || viewModel.email.isEmpty || viewModel.yearOfBirth.isEmpty)
-            .opacity(viewModel.name.isEmpty || viewModel.email.isEmpty || viewModel.yearOfBirth.isEmpty ? 0.5 : 1)
+            .disabled(viewModel.name.isEmpty || viewModel.email.isEmpty)
+            .opacity(viewModel.name.isEmpty || viewModel.email.isEmpty ? 0.5 : 1)
         }
         .padding(.horizontal, 32)
         .alert(isPresented: $showAlert) {

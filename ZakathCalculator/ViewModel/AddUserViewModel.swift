@@ -12,7 +12,7 @@ class AddUserViewModel: ObservableObject {
     
     @Published var name: String = ""
     @Published var email: String = ""
-    @Published var yearOfBirth: String = ""
+    @Published var isWorking: Bool = false
     
     @Published var isUserCreated: Bool = false
     
@@ -35,11 +35,7 @@ class AddUserViewModel: ObservableObject {
             return .failure(reason: "Enter a valid email address")
         }
         
-        guard let year = Int(yearOfBirth) else {
-            return .failure(reason: "Year of Birth must be a number")
-        }
-        
-        let user = User(name: name, email: email, yearOfBirth: year)
+        let user = User(name: name, email: email, isWorking: isWorking)
         print("User created: \(user)")
         
         context.insert(user)
@@ -51,7 +47,7 @@ class AddUserViewModel: ObservableObject {
     func resetFields() {
         name = ""
         email = ""
-        yearOfBirth = ""
+        isWorking = false
         isUserCreated = false
     }
     
