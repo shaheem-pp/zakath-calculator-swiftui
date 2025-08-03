@@ -13,55 +13,53 @@ struct UserListItemView: View {
     @State private var isPressed = false
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 20)
-            .fill(backgroundGradient)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(borderGradient, lineWidth: user.isWorking ? 2 : 0)
-            )
-            .shadow(
-                color: shadowColor,
-                radius: isPressed ? 2 : 6,
-                x: 0,
-                y: isPressed ? 1 : 3
-            )
-            .overlay(
-                HStack(spacing: 16) {
-                    // Status Indicator
-                    statusIndicator
-                    
-                    // User Info
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(user.name)
-                            .font(.title2.weight(.semibold))
-                            .foregroundColor(.primary)
-                            .lineLimit(1)
-                        
-                        Text(user.email)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                            .lineLimit(1)
-                        
-                        statusText
-                    }
-                    
-                    Spacer()
-                    
-                    // Subtle interaction hint
-                    if user.isWorking {
-                        interactionHint
-                    }
-                }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 16)
-            )
-            .scaleEffect(isPressed ? 0.98 : 1.0)
-            .animation(.easeInOut(duration: 0.1), value: isPressed)
-            .onTapGesture {
-                // Handle tap action here
-                print("Tapped user: \(user.name)")
+        HStack(spacing: 16) {
+            // Status Indicator
+            statusIndicator
+            
+            // User Info
+            VStack(alignment: .leading, spacing: 6) {
+                Text(user.name)
+                    .font(.body.weight(.semibold))
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                
+                Text(user.email)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                
+                statusText
             }
-            .frame(height: 100)
+            
+            Spacer()
+            
+            // Subtle interaction hint
+            if user.isWorking {
+                interactionHint
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
+        .background( // 👇 this is the key
+            RoundedRectangle(cornerRadius: 20)
+                .fill(backgroundGradient)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(borderGradient, lineWidth: user.isWorking ? 2 : 0)
+                )
+                .shadow(
+                    color: shadowColor,
+                    radius: isPressed ? 2 : 6,
+                    x: 0,
+                    y: isPressed ? 1 : 3
+                )
+        )
+        .scaleEffect(isPressed ? 0.9 : 1.0)
+        .animation(.easeInOut(duration: 0.1), value: isPressed)
+        .fixedSize(horizontal: false, vertical: true)
     }
     
     // MARK: - Computed Properties

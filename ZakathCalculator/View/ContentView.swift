@@ -10,24 +10,37 @@ import SwiftData
 
 struct ContentView: View {
     @State private var isShowingAddUserSheet = false
-
+    
     var body: some View {
-        NavigationView {
-            UsersList()
-                .navigationTitle("All Users")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            isShowingAddUserSheet = true
-                        }) {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.title2)
-                        }
-                    }
+        NavigationStack {
+            ZStack(alignment: .bottomTrailing) {
+                UsersList()
+                
+                Button(action: {
+                    isShowingAddUserSheet = true
+                }) {
+                    Image(systemName: "plus")
+                        .font(.title.weight(.semibold))
+                        .padding()
+                        .background(LinearGradient(
+                            colors: [Color.blue.opacity(0.8), Color.purple.opacity(0.8)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        )
+                        .foregroundColor(.white)
+                        .clipShape(Circle())
+                        .shadow(radius: 10, x: 0, y: 5)
                 }
-                .sheet(isPresented: $isShowingAddUserSheet) {
-                    AddUserViewWrapper(isPresented: $isShowingAddUserSheet)
-                }
+                .padding()
+            }
+            .navigationTitle("All Users")
+            .navigationDestination(for: User.self) { user in
+                UserDetailView(user: user)
+            }
+            .sheet(isPresented: $isShowingAddUserSheet) {
+                AddUserViewWrapper(isPresented: $isShowingAddUserSheet)
+            }
         }
     }
 }

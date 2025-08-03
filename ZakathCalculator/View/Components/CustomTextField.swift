@@ -68,12 +68,18 @@ struct CustomTextField: View {
 }
 
 #Preview {
-    @State var name = ""
-    @State var email = ""
+    struct CustomTextFieldPreview: View {
+        @State var name = ""
+        @State var email = ""
 
-    return VStack(spacing: 16) {
-        CustomTextField(label: "Enter your Name", placeholder: "Name", text: $name, icon: "person")
-        CustomTextField(label: "Enter your Email", placeholder: "Email", text: $email, icon: "envelope", keyboardType: .emailAddress)
+        var body: some View {
+            VStack(spacing: 16) {
+                CustomTextField(label: "Enter your Name", placeholder: "Name", text: $name, icon: "person")
+                CustomTextField(label: "Enter your Email", placeholder: "Email", text: $email, icon: "envelope", keyboardType: .emailAddress)
+            }
+            .padding()
+        }
     }
-    .padding()
+    
+    return CustomTextFieldPreview()
 }
